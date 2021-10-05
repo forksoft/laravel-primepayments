@@ -21,7 +21,7 @@ trait CallerTrait
             throw new InvalidSearchOrder();
         }
 
-        return App::call(config('primepayments.searchOrder'), ['order_id' => $request->input('MERCHANT_ORDER_ID')]);
+        return App::call(config('primepayments.searchOrder'), ['order_id' => $request->input('innerID')]);
     }
 
     /**
