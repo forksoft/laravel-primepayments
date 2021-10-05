@@ -1,0 +1,43 @@
+{
+    "name": "dexilandazel/laravel-primepayments",
+    "description": "PrimePayments payments for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DexiLandazel"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "laravel/framework": "8.*",
+        "guzzlehttp/guzzle": "7.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "orchestra/testbench": "6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DexiLandazel\\PrimePayments\\Facades\\": "src/Facades",
+            "DexiLandazel\\PrimePayments\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DexiLandazel\\PrimePayments\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DexiLandazel\\PrimePayments\\PrimePaymentsServiceProvider"
+            ],
+            "aliases": {
+                "PrimePayments": "DexiLandazel\\PrimePayments\\Facades\\PrimePayments"
+            }
+        }
+    }
+}
