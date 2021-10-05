@@ -39,7 +39,7 @@ trait ValidateTrait
      */
     public function validateSignature(Request $request)
     {
-        $sign = $this->getSignature($request->input('sum'), config('primepayments.secret_key_second'), $request->input('innerID'), $request->input('payWay'), $request->input('webmaster_profit'));
+        $sign = $this->getSignature($request->input('sum'), config('primepayments.secret_key_second'), $request->input('orderID'), $request->input('innerID'), $request->input('payWay'), $request->input('webmaster_profit'));
 
         if ($request->input('sign') != $sign) {
             return false;

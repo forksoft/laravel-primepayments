@@ -125,9 +125,9 @@ class PrimePayments
      * @param $webmaster_profit
      * @return string
      */
-    public function getSignature($sum, $secretSecond, $order_id, $payWay, $webmaster_profit)
+    public function getSignature($sum, $secretSecond, $order_id, $inner_id, $payWay, $webmaster_profit)
     {
-        $hashStr = $secretSecond . $order_id . $payWay . $order_id . $sum . $webmaster_profit;
+        $hashStr = $secretSecond . $order_id . $payWay . $inner_id . $sum . $webmaster_profit;
 
         return md5($hashStr);
     }
@@ -139,7 +139,7 @@ class PrimePayments
      * @throws Exceptions\InvalidSearchOrder
      */
     public function handle(Request $request)
-    {
+    {   
         // Validate request from PrimePayments
         if (! $this->validateOrderFromHandle($request)) {
             return $this->responseError('validateOrderFromHandle');
