@@ -11,6 +11,6 @@
     <input type="hidden" name="comment" value="Пополнение баланса {{ $comment }}">
 </form>
 <script type="text/javascript">
-    $('#primePaymentsPost').submit();
+    document.getElementById('primePaymentsPost').submit();
 </script>
 </html>
