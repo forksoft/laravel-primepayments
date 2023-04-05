@@ -1,11 +1,11 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Traits;
+namespace Forksoft\PrimePayments\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use DexiLandazel\PrimePayments\Exceptions\InvalidPaidOrder;
-use DexiLandazel\PrimePayments\Exceptions\InvalidSearchOrder;
+use Forksoft\PrimePayments\Exceptions\InvalidPaidOrder;
+use Forksoft\PrimePayments\Exceptions\InvalidSearchOrder;
 
 trait CallerTrait
 {

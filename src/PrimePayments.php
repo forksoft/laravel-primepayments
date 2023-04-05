@@ -1,11 +1,11 @@
 <?php
 
-namespace DexiLandazel\PrimePayments;
+namespace Forksoft\PrimePayments;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use DexiLandazel\PrimePayments\Traits\CallerTrait;
-use DexiLandazel\PrimePayments\Traits\ValidateTrait;
+use Forksoft\PrimePayments\Traits\CallerTrait;
+use Forksoft\PrimePayments\Traits\ValidateTrait;
 
 class PrimePayments
 {
@@ -29,15 +29,13 @@ class PrimePayments
      * @param $comment
      * @return string
      */
-    public function getPayUrl($sum, $order_id, $email, $comment)
+    public function getPayUrl($sum, $order_id, $email, $comment): string
     {
-
+        // Url to init payment on PrimePayments
+        $url = config('primepayments.pay_url');
 
         // Array of url query
         $query = [];
-
-        // Url to init payment on PrimePayments
-        $query['url'] = config('primepayments.pay_url');
 
         // Action of payment
         $query['action'] = 'initPayment';
@@ -54,80 +52,47 @@ class PrimePayments
         // Order id
         $query['innerID'] = $order_id;
 
-        // User email (optional)
-        if (! is_null($email)) {
-            $query['email'] = $email;
-        }
+        // User email
+        $query['email'] = $email;
 
-        $query['sign'] = $this->getFormSignature(
+        $query['sign'] = $this->getSignature(
             config('primepayments.project_id'),
-            $sum,
             config('primepayments.secret_key'),
-            $order_id,
             config('primepayments.currency'),
-            $email
+            $query
         );
 
         // Payment description
         $query['comment'] = $comment;
-        // Merge url ang query and return
-        return $query;
-    }
 
-    /**
-     * @param $sum
-     * @param $order_id
-     * @param $email
-     * @param $comment
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirectToPayUrl($sum, $order_id, $email, $comment)
-    {
-        return view('posts.primepayments', $this->getPayUrl($sum, $order_id, $email, $comment));
-//        return redirect()->away($this->getPayUrl($sum, $order_id, $email, $comment));
+        // Merge url ang query and return
+        return $url.'?'.http_build_query($query);
     }
 
     /**
      * @param string $ip
      * @return bool
      */
-    public function allowIP($ip)
+    public function allowIP($ip): bool
     {
         // Allow local ip
-        if ($ip == '127.0.0.1') {
+        if ($ip === '127.0.0.1') {
             return true;
         }
 
-        return in_array($ip, config('primepayments.allowed_ips'));
+        return \in_array($ip, config('primepayments.allowed_ips'), true);
     }
 
     /**
      * @param $project_id
-     * @param $sum
      * @param $secret
-     * @param $order_id
      * @param $currency
-     * @param $email
+     * @param $params
      * @return string
      */
-    public function getFormSignature($project_id, $sum, $secret, $order_id, $currency, $email)
+    public function getSignature($project_id, $secret, $currency, $params): string
     {
-        $hashStr = $secret . 'initPayment' . $project_id . $sum . $currency . $order_id . $email;
-
-        return md5($hashStr);
-    }
-
-    /**
-     * @param $sum
-     * @param $secretSecond
-     * @param $order_id
-     * @param $payWay
-     * @param $webmaster_profit
-     * @return string
-     */
-    public function getSignature($sum, $secretSecond, $order_id, $inner_id, $payWay, $webmaster_profit)
-    {
-        $hashStr = $secretSecond . $order_id . $payWay . $inner_id . $sum . $webmaster_profit;
+        $hashStr = $secret . $params['action'] . $project_id . $params['sum'] . $currency . $params['innerID'] . $params['email'];
 
         return md5($hashStr);
     }
@@ -171,7 +136,7 @@ class PrimePayments
      * @param $error
      * @return string
      */
-    public function responseError($error)
+    public function responseError($error): string
     {
         return config('primepayments.errors.'.$error, $error);
     }
@@ -179,7 +144,7 @@ class PrimePayments
     /**
      * @return string
      */
-    public function responseOK()
+    public function responseOK(): string
     {
         // Must return 'OK' if paid successful
         // https://primepayments.ru/doc/?page=api

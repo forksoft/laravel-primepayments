@@ -1,6 +1,6 @@
 <?php
 
-namespace DexiLandazel\PrimePayments;
+namespace Forksoft\PrimePayments;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -16,9 +16,6 @@ class PrimePaymentsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/primepayments.php' => config_path('primepayments.php'),
         ], 'config');
-        $this->publishes([
-            __DIR__.'/../views/primepayments.blade.php' => resource_path('/views/posts/primepayments.blade.php'),
-        ], 'views');
         //
     }
 

@@ -18,7 +18,7 @@ return [
     'secret_key_second' => env('PRIMEPAYMENTS_SECRET_KEY_SECOND', ''),
 
     /*
-     * Allowed currenc'ies https://primepayments.ru/doc/?page=api
+     * Allowed currencies https://primepayments.ru/doc/?page=api
      *
      * If currency = null, that parameter doesn`t be setted
      */
@@ -61,5 +61,5 @@ return [
      * Url to init payment on PrimePayments
      * https://primepayments.ru/doc/?page=api
      */
-    'pay_url' => 'https://pay.primepayments.ru/API/v1/',
+    'pay_url' => 'https://pay.primepayments.io/API/v2/',
 ];

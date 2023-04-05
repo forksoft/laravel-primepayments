@@ -1,6 +1,6 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Traits;
+namespace Forksoft\PrimePayments\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

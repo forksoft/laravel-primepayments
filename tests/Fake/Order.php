@@ -1,6 +1,6 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Test\Fake;
+namespace Forksoft\PrimePayments\Test\Fake;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;

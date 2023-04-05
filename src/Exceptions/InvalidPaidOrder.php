@@ -1,6 +1,6 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Exceptions;
+namespace Forksoft\PrimePayments\Exceptions;
 
 use Throwable;
 

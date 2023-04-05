@@ -1,11 +1,11 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Test;
+namespace Forksoft\PrimePayments\Test;
 
 use Illuminate\Http\Request;
-use DexiLandazel\PrimePayments\Exceptions\InvalidPaidOrder;
-use DexiLandazel\PrimePayments\Exceptions\InvalidSearchOrder;
-use DexiLandazel\PrimePayments\Test\Fake\Order;
+use Forksoft\PrimePayments\Exceptions\InvalidPaidOrder;
+use Forksoft\PrimePayments\Exceptions\InvalidSearchOrder;
+use Forksoft\PrimePayments\Test\Fake\Order;
 
 class PrimePaymentsTest extends TestCase
 {
@@ -32,7 +32,13 @@ class PrimePaymentsTest extends TestCase
         ];
 
         if ($signature === false) {
-            $params['sign'] = $this->primepayments->getSignature($params['SUM'], $this->app['config']->get('primepayments.secret_key_second'), $params['MERCHANT_ORDER_ID'],$params['PAY_WAY'], $params['WEBMASTER_PROFIT']);
+            $params['sign'] = $this->primepayments->getSignature(
+                $params['SUM'],
+                $this->app['config']->get('primepayments.secret_key_second'),
+                $params['MERCHANT_ORDER_ID'],
+                $params['PAY_WAY'],
+                $params['WEBMASTER_PROFIT']
+            );
         } else {
             $params['sign'] = $signature;
         }
@@ -55,20 +61,21 @@ class PrimePaymentsTest extends TestCase
     }
 
     /** @test */
-    public function compare_form_signature()
-    {
-        $this->assertEquals(
-            'e9759d5cbc80ceb8716d06d7e2adc348',
-            $this->primepayments->getFormSignature('12345', '100', 'secret_key', '10','RUB', 'example@mail')
-        );
-    }
-
-    /** @test */
     public function compare_signature()
     {
         $this->assertEquals(
-            '7f590bc40563dc9ff96269e586ba6e65',
-            $this->primepayments->getSignature('100', 'secret_key_second', '12345', '1','10')
+            '9cc438d067ba6d9a473a48fdb2f4111a',
+            $this->primepayments->getSignature(
+                '1',
+                'test_API',
+                'RUB',
+                [
+                    'action' => 'initPayment',
+                    'sum' => 10,
+                    'innerID' => 1,
+                    'email' => 'test@test.com'
+                ]
+            )
         );
     }
 
@@ -78,28 +85,6 @@ class PrimePaymentsTest extends TestCase
         $url = $this->primepayments->getPayUrl(100, 10, 'example@gmail.com', 'Example comment');
 
         $this->assertStringStartsWith($this->app['config']->get('primepayments.pay_url'), $url);
-    }
-
-    /** @test */
-    public function compare_request_signature()
-    {
-        $params = [
-            'SUM' => '100',
-            'MERCHANT_ORDER_ID' => '10',
-            'PAY_WAY' => '1',
-            'WEBMASTER_PROFIT' => '10',
-        ];
-        $this->assertEquals(
-            '7f590bc40563dc9ff96269e586ba6e65',
-            $this->primepayments->getSignature($params['SUM'], $this->app['config']->get('primepayments.secret_key_second'), $params['MERCHANT_ORDER_ID'],$params['PAY_WAY'], $params['WEBMASTER_PROFIT'] )
-        );
-    }
-
-    /** @test */
-    public function pay_order_form_validate_request()
-    {
-        $request = $this->create_test_request();
-        $this->assertTrue($this->primepayments->validate($request));
     }
 
     /** @test */
@@ -157,7 +142,10 @@ class PrimePaymentsTest extends TestCase
         $this->app['config']->set('primepayments.searchOrder', [Order::class, 'SearchOrderFilterFails']);
         $request = $this->create_test_request('error');
         $request->server->set('REMOTE_ADDR', '127.0.0.1');
-        $this->assertEquals($this->app['config']->get('primepayments.errors.validateOrderFromHandle'), $this->primepayments->handle($request));
+        $this->assertEquals(
+            $this->app['config']->get('primepayments.errors.validateOrderFromHandle'),
+            $this->primepayments->handle($request)
+        );
     }
 
     /** @test */

@@ -1,9 +1,9 @@
 <?php
 
-namespace DexiLandazel\PrimePayments\Test;
+namespace Forksoft\PrimePayments\Test;
 
-use DexiLandazel\PrimePayments\PrimePayments;
-use DexiLandazel\PrimePayments\PrimePaymentsServiceProvider;
+use Forksoft\PrimePayments\PrimePayments;
+use Forksoft\PrimePayments\PrimePaymentsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

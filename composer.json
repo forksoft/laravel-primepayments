@@ -1,14 +1,14 @@
 {
-    "name": "dexilandazel/laravel-primepayments",
+    "name": "forksoft/laravel-primepayments",
     "description": "PrimePayments payments for Laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": "DexiLandazel"
+            "name": "Forksoft"
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "laravel/framework": "8.*",
         "guzzlehttp/guzzle": "7.*"
     },
@@ -18,13 +18,13 @@
     },
     "autoload": {
         "psr-4": {
-            "DexiLandazel\\PrimePayments\\Facades\\": "src/Facades",
-            "DexiLandazel\\PrimePayments\\": "src"
+            "Forksoft\\PrimePayments\\Facades\\": "src/Facades",
+            "Forksoft\\PrimePayments\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DexiLandazel\\PrimePayments\\Test\\": "tests/"
+            "Forksoft\\PrimePayments\\Test\\": "tests/"
         }
     },
     "config": {
@@ -33,10 +33,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DexiLandazel\\PrimePayments\\PrimePaymentsServiceProvider"
+                "Forksoft\\PrimePayments\\PrimePaymentsServiceProvider"
             ],
             "aliases": {
-                "PrimePayments": "DexiLandazel\\PrimePayments\\Facades\\PrimePayments"
+                "Forksoft": "Forksoft\\PrimePayments\\Facades\\PrimePayments"
             }
         }
     }
